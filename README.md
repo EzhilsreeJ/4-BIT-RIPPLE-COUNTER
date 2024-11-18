@@ -1,7 +1,7 @@
-# EXP-12 4-BIT-RIPPLE-COUNTER
-Developed by: EZHIL SREE J
+# 4-BIT-RIPPLE-COUNTER
 
-Register no:212223230056
+## NAME: EZHIL SREE J
+## REG NO: 212223230056
 
 **AIM:**
 
@@ -26,46 +26,70 @@ In timing diagram Q0 is changing as soon as the negative edge of clock pulse is 
 ![image](https://github.com/naavaneetha/4-BIT-RIPPLE-COUNTER/assets/154305477/85e1958a-2fc1-49bb-9a9f-d58ccbf3663c)
 
 **Procedure**
-1.Type the program in Quartus software.
-2.Compile and run the program.
-3.Generate the RTL schematic and save the logic diagram.
-4.Create nodes for inputs and outputs to generate the timing diagram.
-5.For different input combinations generate the timing diagram.
+
+1.	Type the program in Quartus software.
+2.	Compile and run the program.
+3.	Generate the RTL schematic and save the logic diagram.
+4.	Create nodes for inputs and outputs to generate the timing diagram.
+5.	For different input combinations generate the timing diagram.
+
 
 **PROGRAM**
-
-/* Program for 4 Bit Ripple Counter and verify its truth table in quartus using Verilog programming.
-
- Developed by: MOPURI ANKITHA
- 
- RegisterNumber: 212223040117
-*/
 ```
-module ripple_counter(
-     input wire clk,
-	  input wire rst,
-	  output reg[3:0] count
-	  );
-	  
-always @(posedge clk or posedge rst)
-begin
-     if(rst)
-	     count <= 4'b0000;
-	  else 
-	     count <= count + 1;
-end 
+module EX12 (
+    output reg [3:0] q,
+    input clk, reset
+);
+    wire t0, t1, t2, t3;
+    T_FF tff0(t0, clk, reset);
+    T_FF tff1(t1, t0, reset);
+    T_FF tff2(t2, t1, reset);
+    T_FF tff3(t3, t2, reset);
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            q <= 4'b0000;
+        end else begin
+            q <= {t3, t2, t1, t0};
+        end
+    end
 endmodule
+
+module D_FF(
+    output reg q,
+    input d, clk, reset
+);
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            q <= 1'b0;
+        end else begin
+            q <= d;
+        end
+    end
+endmodule
+
+module T_FF(
+    output q,
+    input clk, reset
+);
+    wire d;
+    D_FF dff0(q, d, clk, reset);
+    not n1(d, q); // not is Verilog-provided primitive.
+endmodule
+
 ```
 
 **RTL LOGIC FOR 4 Bit Ripple Counter**
-![image](https://github.com/user-attachments/assets/58742e65-9e08-425d-b654-b99cc87abdb7)
+
+![image](https://github.com/ADITYA-205/4-BIT-RIPPLE-COUNTER/assets/169021938/28d220b5-ca1d-4480-809b-780cd6a2badb)
 
 
 **TIMING DIGRAMS FOR 4 Bit Ripple Counter**
-![image](https://github.com/user-attachments/assets/d7ffe31e-5010-4a6b-8b44-ae42293fd53b)
 
+![image](https://github.com/ADITYA-205/4-BIT-RIPPLE-COUNTER/assets/169021938/5a83e6c5-8098-40cd-8b37-3893bf3e6bdd)
 
 
 **RESULTS**
 
-Thus implement 4 Bit Ripple Counter using verilog and validating their functionality using their functional tables is done successfully.
+The 4-bit ripple counter implemented in Verilog has been successfully completed. Its functionality has been validated through simulation and comparison with the expected values from the functional tables
+
